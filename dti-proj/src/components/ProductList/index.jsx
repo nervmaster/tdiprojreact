@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { PRODUCT_API, ADRESS } from '../../env';
 
 class ProductList extends React.Component {
     constructor(props) {
@@ -10,7 +11,7 @@ class ProductList extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://localhost:8080/product/')
+        fetch(PRODUCT_API)
             .then(response => response.json())
             .then(products => this.setState({products: products}));
     }
@@ -22,7 +23,7 @@ class ProductList extends React.Component {
                     <p>Name: {product.name}</p>
                     <p>Price: {product.price}</p>
                     <p>Quantity: {product.quantity}</p>
-                    <Link to={`/edit/${product.id}`}><button>Edit</button></Link>
+                    <Link to={`${ADRESS.EDIT}/${product.id}`}><button>Edit</button></Link>
                     <p>---------------------</p>
                 </li>
             );

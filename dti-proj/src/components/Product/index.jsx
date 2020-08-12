@@ -1,5 +1,6 @@
 import React from 'react';
 import {withRouter} from 'react-router';
+import {PRODUCT_API, ADRESS} from '../../env';
 
 class Product extends React.Component {
     constructor(props) {
@@ -46,20 +47,20 @@ class Product extends React.Component {
     }
 
     postObject() {
-        fetch(`http://localhost:8080/product/`, {
+        fetch(PRODUCT_API, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.mountProductToPost(this.state.product))
         }).then((response) => response.json())
         .then((product) => {
             window.alert('Product created successfully');
-            window.location.href =`/edit/${product.id}`;
+            window.location.href = `${ADRESS.EDIT}/${product.id}`;
         });
 
     }
 
     replaceObject() {
-        fetch(`http://localhost:8080/product/${this.props.match.params.id}`, {
+        fetch(`${PRODUCT_API}/${this.props.match.params.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.mountProductToPost(this.state.product))
@@ -69,7 +70,6 @@ class Product extends React.Component {
             window.alert('Product edited successfully');
         });
     }
-
 
     handleNameChange(event) {
         let {product} = this.state;
@@ -94,7 +94,7 @@ class Product extends React.Component {
             return;
         }
         
-        fetch(`http://localhost:8080/product/${this.props.match.params.id}`)
+        fetch(`${PRODUCT_API}/${this.props.match.params.id}`)
             .then(response => response.json())
             .then(product => this.setState({
                 product: product,
@@ -107,38 +107,46 @@ class Product extends React.Component {
         {
             return;
         }
-        fetch(`http://localhost:8080/product/${this.props.match.params.id}`, {
+        fetch(`${PRODUCT_API}/${this.props.match.params.id}`, {
             method: 'DELETE',
             headers: {'Content-Type': 'application/json'},
         }).then(() => {
             window.alert('Product deleted successfully');
-            window.location.href = '/';
+            window.location.href = ADRESS.ROOT;
         });
     }
 
 
     render() {
         const {product} = this.state;
+        const headerText = this.state.isCreate ? 
+            'Creating new product' : 
+            `Editing product id#${this.state.product.id}`;
+
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Name:
-                    <input type="text"  value={product.name == null ? '' : product.name}  onChange={this.handleNameChange} />
-                </label>
-                <label>
-                    Price:
-                    <input type="number" value={product.price == null ? '' : product.price} onChange={this.handlePriceChange} />
-                </label>
-                <label>
-                    Quantity:
-                    <input type="number" value={product.quantity == null ? '' : product.quantity} onChange={this.handleQuantityChange} />
-                </label>
+            <div>
+                <h1>{ headerText }</h1>
                 <p></p>
-                <input type="submit" value="Send" disabled={this.state.loading}/>
-                {!this.state.isCreate && (
-                    <button type="button" onClick={() => this.deleteOperation()}>DELETE</button>
-                )}
-            </form>
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Name:
+                        <input type="text"  value={product.name == null ? '' : product.name}  onChange={this.handleNameChange} />
+                    </label>
+                    <label>
+                        Price:
+                        <input type="number" value={product.price == null ? '' : product.price} onChange={this.handlePriceChange} />
+                    </label>
+                    <label>
+                        Quantity:
+                        <input type="number" value={product.quantity == null ? '' : product.quantity} onChange={this.handleQuantityChange} />
+                    </label>
+                    <p></p>
+                    <input type="submit" value="Send" disabled={this.state.loading}/>
+                    {!this.state.isCreate && (
+                        <button type="button" onClick={() => this.deleteOperation()}>DELETE</button>
+                    )}
+                </form>
+            </div>
         );
     }
 }

@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { ADRESS } from '../../env';
 
 const TopMenu = () => {
     return (
@@ -6,8 +8,8 @@ const TopMenu = () => {
             <table>
                 <thead>
                 <tr>
-                    <th><a href='/'> Product List </a></th>
-                    <th><a href='/create'> Create Product </a></th>
+                    <th><Link to={ADRESS.ROOT}> Product List</Link></th>
+                    <th><Link to={ADRESS.CREATE}>Create Product</Link></th> 
                 </tr>
                 </thead>
             </table>
