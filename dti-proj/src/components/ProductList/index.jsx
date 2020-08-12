@@ -4,24 +4,6 @@ import { Link } from 'react-router-dom';
 class ProductList extends React.Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     products: [{
-        //         id: 1,
-        //         name: "productA",
-        //         price: 1,
-        //         quantity: 1
-        //     }, {
-        //         id: 2,
-        //         name: "productB",
-        //         price: 1,
-        //         quantity: 1
-        //     }, {
-        //         id: 5,
-        //         name: "productC",
-        //         price: 1,
-        //         quantity: 1
-        //     }],
-        // }
         this.state = {
             products: []
         }

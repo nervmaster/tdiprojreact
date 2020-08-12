@@ -70,7 +70,6 @@ class Product extends React.Component {
         });
     }
 
-    
 
     handleNameChange(event) {
         let {product} = this.state;
@@ -103,6 +102,20 @@ class Product extends React.Component {
             }));
     }
 
+    deleteOperation() {
+        if(!window.confirm('Are you sure to delete the product?'))
+        {
+            return;
+        }
+        fetch(`http://localhost:8080/product/${this.props.match.params.id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+        }).then(() => {
+            window.alert('Product deleted successfully');
+            window.location.href = '/';
+        });
+    }
+
 
     render() {
         const {product} = this.state;
@@ -122,6 +135,9 @@ class Product extends React.Component {
                 </label>
                 <p></p>
                 <input type="submit" value="Send" disabled={this.state.loading}/>
+                {!this.state.isCreate && (
+                    <button type="button" onClick={() => this.deleteOperation()}>DELETE</button>
+                )}
             </form>
         );
     }
